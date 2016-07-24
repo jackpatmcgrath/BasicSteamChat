@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="LoginButtonCaption">Login</string>
+  <string name="UsernameFieldHint">Username</string>
+  <string name="PasswordFieldHint">Password</string>
+  <string name="IncorrectDetailsToastText">Incorrect login details</string>
+</resources>
