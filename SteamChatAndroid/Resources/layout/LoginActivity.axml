@@ -3,23 +3,15 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:minWidth="25px"
-    android:minHeight="25px">
-    <EditText
-        android:inputType="textVisiblePassword|textNoSuggestions"
-        android:hint="@string/UsernameFieldHint"
+    android:background="@color/LoginBackgroundColour">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/Toolbar"
+        android:minHeight="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/UsernameEditText" />
-    <EditText
-        android:inputType="textPassword"
-        android:hint="@string/PasswordFieldHint"
+        android:background="@android:color/transparent" />
+    <FrameLayout
+        android:id="@+id/LoginFragmentContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/PasswordEditText" />
-    <Button
-        android:text="@string/LoginButtonCaption"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/LoginButton" />
+        android:layout_height="match_parent" />
 </LinearLayout>

@@ -19,34 +19,46 @@ namespace SteamChatCore
 
         private UserController () { }
 
-        public async Task<Tuple<List<string>, LoginResponse>> Login (string username, string password)
+        // Returns a data object and an enum representing the login response
+        public async Task<Tuple<object, LoginResponse>> Login (string username, string password)
         {
             var client = new SteamClient ();
             var result = await Task.Run (() => UserAuthenticator.GetAccessTokenForUser (username, password));
+            System.Diagnostics.Debug.WriteLine (result.SteamResponseMessage);
 
-            if (result.SteamResponseMessage == "Incorrect login") {
-                return new Tuple<List<string>, LoginResponse> (null, LoginResponse.IncorrectDetails);
+            if (result.SteamResponseMessage == "Incorrect login.") {
+                System.Diagnostics.Debug.WriteLine ("Incorrect login, returning nothing.");
+                return new Tuple<object, LoginResponse> (null, LoginResponse.IncorrectDetails);
             }
 
             if (result.IsCaptchaNeeded && result.IsSteamGuardNeeded) {
-                var data = new List<string> { result.CaptchaURL, result.CaptchaGID, result.SteamGuardID, result.SteamGuardEmailDomain };
-                return new Tuple<List<string>, LoginResponse> (data, LoginResponse.CaptchaThenSteamGuard);
+                System.Diagnostics.Debug.WriteLine ("Captcha and authentication needed, returning data.");
+                var data = new CaptchaAndSteamGuardReturn (result.CaptchaGID, result.CaptchaGID, result.SteamGuardID, result.SteamGuardEmailDomain);
+                return new Tuple<object, LoginResponse> (data, LoginResponse.CaptchaThenSteamGuard);
             }
 
             if (result.IsCaptchaNeeded) {
-                var data = new List<string> { result.CaptchaURL, result.CaptchaGID };
-                return new Tuple<List<string>, LoginResponse> (data, LoginResponse.JustCaptcha);
+                System.Diagnostics.Debug.WriteLine ("Captcha needed, returning data.");
+                var data = new CaptchaReturn (result.CaptchaGID, result.CaptchaURL);
+                return new Tuple<object, LoginResponse> (data, LoginResponse.JustCaptcha);
             }
 
             if (result.IsSteamGuardNeeded) {
-                var data = new List<string> { result.SteamGuardID, result.SteamGuardEmailDomain };
-                return new Tuple<List<string>, LoginResponse> (data, LoginResponse.JustSteamGuard);
+                System.Diagnostics.Debug.WriteLine ("Steam guard needed, returning data.");
+                var data = new SteamGuardReturn (result.SteamGuardID, result.SteamGuardEmailDomain);
+                return new Tuple<object, LoginResponse> (data, LoginResponse.JustSteamGuard);
             }
 
-            // cache auth token, set other details later
-            Helpers.Settings.AuthToken = result.User.OAuthAccessToken;
+            result = UserAuthenticator.GetAccessTokenForUser (username, password, null, null);
 
-            return new Tuple<List<string>, LoginResponse> (null, LoginResponse.Success);
+            if (result.IsSuccessful) {
+                // cache auth token, set other details later
+                System.Diagnostics.Debug.WriteLine (string.Format ("Authentication token: {0}", result.User.OAuthAccessToken));
+                Helpers.Settings.AuthToken = result.User.OAuthAccessToken;
+                return new Tuple<object, LoginResponse> (null, LoginResponse.Success);
+            }
+
+            return new Tuple<object, LoginResponse> (null, LoginResponse.Failed);
         }
     }
 }

@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+  <!-- General strings -->
+  <string name="ApplicationName">Basic Steam Chat</string>
+
+  <!-- Login strings -->
   <string name="LoginButtonCaption">Login</string>
   <string name="UsernameFieldHint">Username</string>
   <string name="PasswordFieldHint">Password</string>
   <string name="IncorrectDetailsToastText">Incorrect login details</string>
+  <string name="CaptchaFieldHint">Captcha</string>
+  <string name="CaptchaButtonCaption">Submit</string>
+  <string name="LoginToolbarTitle">Login to Steam</string>
 </resources>

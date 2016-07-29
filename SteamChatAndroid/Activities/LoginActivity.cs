@@ -1,61 +1,100 @@
 using Android.App;
 using Android.OS;
+using Android.Support.V7.App;
+using Android.Views;
 using Android.Widget;
-using Com.Lilarcor.Cheeseknife;
+using SteamChatAndroid.Fragments;
 using SteamChatCore;
 using SteamChatCore.Model;
 using System;
+using System.Threading.Tasks;
 
-namespace SteamChatAndroid
+namespace SteamChatAndroid.Activities
 {
-    [Activity (Label = "LoginActivity", MainLauncher = true)]
-    public class LoginActivity : Activity
+    [Activity (Label = "@string/ApplicationName", MainLauncher = true)]
+    public class LoginActivity : BaseActivity, LoginFragmentListener, CaptchaFragmentListener
     {
-        [InjectView (Resource.Id.UsernameEditText)]
-        EditText usernameField;
-
-        [InjectView (Resource.Id.PasswordEditText)]
-        EditText passwordField;
-
-        [InjectView (Resource.Id.LoginButton)]
-        Button loginButton;
-
         protected override void OnCreate (Bundle savedInstanceState)
         {
             base.OnCreate (savedInstanceState);
 
-            SetContentView (Resource.Layout.LoginActivity);
-            Cheeseknife.Inject (this);
+            ShowLoginFragment ();
         }
 
-        void ToggleFields ()
+        public override void OnBackPressed ()
         {
-            loginButton.Enabled = passwordField.Enabled = usernameField.Enabled = !usernameField.Enabled;
+            var frag = SupportFragmentManager.FindFragmentById (Resource.Id.LoginFragmentContainer);
+            if (frag is CaptchaFragment) {
+                SupportActionBar.SetDisplayHomeAsUpEnabled (false);
+            }
+            base.OnBackPressed ();
         }
 
-        [InjectOnClick (Resource.Id.LoginButton)]
-        async void LoginButtonHandler (object sender, EventArgs e)
+        public async Task DoLogin (string username, string password)
         {
-            ToggleFields ();
-            var result = await UserController.Instance.Login (usernameField.Text, passwordField.Text);
-            ToggleFields ();
+            var result = await UserController.Instance.Login (username, password);
+            LoginFragment.ToggleFields ();
 
             switch (result.Item2) {
                 case LoginResponse.CaptchaThenSteamGuard:
-                    System.Diagnostics.Debug.WriteLine (result.Item1[0]);
                     break;
                 case LoginResponse.JustCaptcha:
-                    System.Diagnostics.Debug.WriteLine (result.Item1[0]);
+                    ShowCaptchaFragment ((result.Item1 as CaptchaReturn).CaptchaURL);
                     break;
                 case LoginResponse.JustSteamGuard:
                     System.Diagnostics.Debug.WriteLine ("steam guard");
                     break;
                 case LoginResponse.IncorrectDetails:
-                    Toast.MakeText (this, Resource.String.IncorrectDetailsToastText, ToastLength.Short);
+                    Toast.MakeText (this, Resource.String.IncorrectDetailsToastText, ToastLength.Short).Show ();
                     break;
                 case LoginResponse.Success:
                     StartActivity (new Android.Content.Intent (this, typeof (MainActivity)));
                     break;
+                case LoginResponse.Failed:
+                    System.Diagnostics.Debug.WriteLine ("failed");
+                    break;
+            }
+        }
+
+        public async Task CaptchaEntered (string captcha)
+        {
+            System.Diagnostics.Debug.WriteLine (captcha);
+        }
+
+        void ShowLoginFragment ()
+        {
+            var loginFragment = LoginFragment.NewInstance ();
+            ReplaceFragment (Resource.Id.LoginFragmentContainer, loginFragment, LoginFragment.MyTag).Commit ();
+        }
+
+        void ShowCaptchaFragment (string url)
+        {
+            var captchaFragment = CaptchaFragment.NewInstance (url);
+            ReplaceFragment (Resource.Id.LoginFragmentContainer, captchaFragment, CaptchaFragment.MyTag).AddToBackStack (null).Commit ();
+            SupportActionBar.SetDisplayHomeAsUpEnabled (true);
+        }
+
+        public LoginFragment LoginFragment {
+            get {
+                return SupportFragmentManager.FindFragmentByTag (LoginFragment.MyTag) as LoginFragment;
+            }
+        }
+
+        public CaptchaFragment CaptchaFragment {
+            get {
+                return SupportFragmentManager.FindFragmentByTag (CaptchaFragment.MyTag) as CaptchaFragment;
+            }
+        }
+
+        protected override int LayoutResource {
+            get {
+                return Resource.Layout.LoginActivity;
+            }
+        }
+
+        protected override int ToolbarTitleResource {
+            get {
+                return Resource.String.LoginToolbarTitle;
             }
         }
     }
