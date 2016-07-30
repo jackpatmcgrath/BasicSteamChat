@@ -58,7 +58,7 @@ namespace SteamChatAndroid.Activities
 
         public async Task CaptchaEntered (string captcha)
         {
-            System.Diagnostics.Debug.WriteLine (captcha);
+            System.Diagnostics.Debug.WriteLine (string.Format("Entered captcha: {0}", captcha));
         }
 
         void ShowLoginFragment ()
