@@ -2,13 +2,16 @@
 <resources>
   <!-- General strings -->
   <string name="ApplicationName">Basic Steam Chat</string>
+  <string name="BlankToolbar"></string>
 
   <!-- Login strings -->
   <string name="LoginButtonCaption">Login</string>
   <string name="UsernameFieldHint">Username</string>
   <string name="PasswordFieldHint">Password</string>
+  <string name="SteamGuardFieldHint">Code</string>
   <string name="IncorrectDetailsToastText">Incorrect login details</string>
   <string name="CaptchaFieldHint">Captcha</string>
   <string name="CaptchaButtonCaption">Submit</string>
   <string name="LoginToolbarTitle">Login to Steam</string>
+  <string name="SteamGuardLabelCaption">Please enter the Steam Guard code sent to ****@{0}.</string>
 </resources>

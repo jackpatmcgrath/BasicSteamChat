@@ -28,8 +28,14 @@ namespace SteamChatAndroid.Fragments
         public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = base.OnCreateView (inflater, container, savedInstanceState);
-            passwordField.Text = "";
+            FragmentListener.HideBackButton ();
             return view;
+        }
+
+        public override void OnViewStateRestored (Bundle savedInstanceState)
+        {
+            base.OnViewStateRestored (savedInstanceState);
+            passwordField.Text = "";
         }
 
         public void ToggleFields ()
@@ -54,5 +60,7 @@ namespace SteamChatAndroid.Fragments
     public interface LoginFragmentListener
     {
         Task DoLogin (string username, string password);
+
+        void HideBackButton ();
     }
 }

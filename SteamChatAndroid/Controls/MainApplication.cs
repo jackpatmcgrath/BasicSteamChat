@@ -5,7 +5,7 @@ using Android.Runtime;
 
 namespace SteamChatAndroid.Controls
 {
-    [Application (Label = "@string/ApplicationName", Theme = "@style/AppTheme", Icon = "@drawable/Icon")]
+    [Application (Label = "MainApplication", Theme = "@style/AppTheme", Icon = "@drawable/Icon")]
     public class MainApplication : Application
     {
         public MainApplication (IntPtr javaReference, JniHandleOwnership transfer) : base (javaReference, transfer)

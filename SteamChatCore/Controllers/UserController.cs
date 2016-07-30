@@ -19,46 +19,49 @@ namespace SteamChatCore
 
         private UserController () { }
 
-        // Returns a data object and an enum representing the login response
-        public async Task<Tuple<object, LoginResponse>> Login (string username, string password)
+        SteamClient client;
+        UserAuthenticator.SteamAccessRequestResult result;
+
+        public async Task<Tuple<string, LoginResponse>> InitialLogin (string username, string password)
         {
-            var client = new SteamClient ();
-            var result = await Task.Run (() => UserAuthenticator.GetAccessTokenForUser (username, password));
-            System.Diagnostics.Debug.WriteLine (result.SteamResponseMessage);
+            client = new SteamClient ();
+            result = await Task.Run (() => UserAuthenticator.GetAccessTokenForUser (username, password));
+            System.Diagnostics.Debug.WriteLineIf (!string.IsNullOrEmpty (result.SteamResponseMessage), result.SteamResponseMessage);
+            return CheckResult ();  
+        }
 
+        public async Task<Tuple<string, LoginResponse>> CaptchaLogin (string username, string password, string answer)
+        {
+            var captchaAnswer = new UserAuthenticator.CaptchaAnswer {
+                GID = result.CaptchaGID,
+                SolutionText = answer
+            };
+            result = await Task.Run (() => UserAuthenticator.GetAccessTokenForUser (username, password, null, captchaAnswer));
+            System.Diagnostics.Debug.WriteLineIf (!string.IsNullOrEmpty (result.SteamResponseMessage), result.SteamResponseMessage);
+            return CheckResult ();
+        }
+
+        Tuple<string, LoginResponse> CheckResult ()
+        {
             if (result.SteamResponseMessage == "Incorrect login.") {
-                System.Diagnostics.Debug.WriteLine ("Incorrect login, returning nothing.");
-                return new Tuple<object, LoginResponse> (null, LoginResponse.IncorrectDetails);
-            }
-
-            if (result.IsCaptchaNeeded && result.IsSteamGuardNeeded) {
-                System.Diagnostics.Debug.WriteLine ("Captcha and authentication needed, returning data.");
-                var data = new CaptchaAndSteamGuardReturn (result.CaptchaGID, result.CaptchaGID, result.SteamGuardID, result.SteamGuardEmailDomain);
-                return new Tuple<object, LoginResponse> (data, LoginResponse.CaptchaThenSteamGuard);
+                return new Tuple<string, LoginResponse> (null, LoginResponse.IncorrectDetails);
             }
 
             if (result.IsCaptchaNeeded) {
-                System.Diagnostics.Debug.WriteLine ("Captcha needed, returning data.");
-                var data = new CaptchaReturn (result.CaptchaGID, result.CaptchaURL);
-                return new Tuple<object, LoginResponse> (data, LoginResponse.JustCaptcha);
+                return new Tuple<string, LoginResponse> (result.CaptchaURL, LoginResponse.JustCaptcha);
             }
 
             if (result.IsSteamGuardNeeded) {
-                System.Diagnostics.Debug.WriteLine ("Steam guard needed, returning data.");
-                var data = new SteamGuardReturn (result.SteamGuardID, result.SteamGuardEmailDomain);
-                return new Tuple<object, LoginResponse> (data, LoginResponse.JustSteamGuard);
+                return new Tuple<string, LoginResponse> (result.SteamGuardEmailDomain, LoginResponse.JustSteamGuard);
             }
-
-            result = UserAuthenticator.GetAccessTokenForUser (username, password, null, null);
 
             if (result.IsSuccessful) {
                 // cache auth token, set other details later
-                System.Diagnostics.Debug.WriteLine (string.Format ("Authentication token: {0}", result.User.OAuthAccessToken));
                 Helpers.Settings.AuthToken = result.User.OAuthAccessToken;
-                return new Tuple<object, LoginResponse> (null, LoginResponse.Success);
+                return new Tuple<string, LoginResponse> (null, LoginResponse.Success);
             }
 
-            return new Tuple<object, LoginResponse> (null, LoginResponse.Failed);
+            return new Tuple<string, LoginResponse> (null, LoginResponse.Failed);
         }
     }
 }

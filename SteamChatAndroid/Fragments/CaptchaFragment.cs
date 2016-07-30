@@ -1,18 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Com.Lilarcor.Cheeseknife;
 using Square.Picasso;
 using System.Threading.Tasks;
+using SteamChatAndroid.Controls;
 
 namespace SteamChatAndroid.Fragments
 {
@@ -26,13 +18,13 @@ namespace SteamChatAndroid.Fragments
 
         public const string MyTag = "captcha_fragment";
 
-        const string UrlKey = "url_key";
-
-        public static CaptchaFragment NewInstance (string url)
+        public static CaptchaFragment NewInstance (string username, string password, string url)
         {
             var myFragment = new CaptchaFragment ();
             var args = new Bundle ();
-            args.PutString (UrlKey, url);
+            args.PutString (Consts.UrlKey, url);
+            args.PutString (Consts.UsernameKey, username);
+            args.PutString (Consts.PasswordKey, password);
             myFragment.Arguments = args;
             return myFragment;
         }
@@ -40,17 +32,31 @@ namespace SteamChatAndroid.Fragments
         public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = base.OnCreateView (inflater, container, savedInstanceState);
-            Picasso.With (Context).Load (Arguments.GetString (UrlKey)).Fit ().Into (captchaImageView);
+            Picasso.With (Context).Load (Arguments.GetString (Consts.UrlKey)).Fit ().Into (captchaImageView);
             captchaField.EditorAction += CaptchaFieldActionEventHandler;
             return view;
+        }
+
+        public override void OnDestroyView ()
+        {
+            captchaField.EditorAction -= CaptchaFieldActionEventHandler;
+            base.OnDestroyView ();
         }
 
         async void CaptchaFieldActionEventHandler (object sender, TextView.EditorActionEventArgs args)
         {
             switch (args.ActionId) {
                 case Android.Views.InputMethods.ImeAction.Done:
-                    await FragmentListener.CaptchaEntered (captchaField.Text);
+                    var username = Arguments.GetString (Consts.UsernameKey);
+                    var password = Arguments.GetString (Consts.PasswordKey);
+                    await FragmentListener.CaptchaEntered (username, password, captchaField.Text);
                     break;
+            }
+        }
+
+        public string Captcha {
+            get {
+                return captchaField.Text;
             }
         }
 
@@ -63,6 +69,6 @@ namespace SteamChatAndroid.Fragments
 
     public interface CaptchaFragmentListener
     {
-        Task CaptchaEntered (string captcha);
+        Task CaptchaEntered (string username, string password, string captcha);
     }
 }

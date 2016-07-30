@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace SteamChatAndroid.Activities
 {
     [Activity (Label = "@string/ApplicationName", MainLauncher = true)]
-    public class LoginActivity : BaseActivity, LoginFragmentListener, CaptchaFragmentListener
+    public class LoginActivity : BaseActivity, LoginFragmentListener, CaptchaFragmentListener, SteamGuardFragmentListener
     {
         protected override void OnCreate (Bundle savedInstanceState)
         {
@@ -21,44 +21,58 @@ namespace SteamChatAndroid.Activities
             ShowLoginFragment ();
         }
 
-        public override void OnBackPressed ()
+        public void HideBackButton ()
         {
-            var frag = SupportFragmentManager.FindFragmentById (Resource.Id.LoginFragmentContainer);
-            if (frag is CaptchaFragment) {
-                SupportActionBar.SetDisplayHomeAsUpEnabled (false);
-            }
-            base.OnBackPressed ();
+            SupportActionBar.SetDisplayHomeAsUpEnabled (false);
         }
 
         public async Task DoLogin (string username, string password)
         {
-            var result = await UserController.Instance.Login (username, password);
+            var result = await UserController.Instance.InitialLogin (username, password);
+            HandleLoginResponse (username, password, result);
             LoginFragment.ToggleFields ();
+        }
 
+        public async Task CaptchaEntered (string username, string password, string captcha)
+        {
+            var result = await UserController.Instance.CaptchaLogin (username, password, captcha);
+        }
+
+        public async Task SteamGuardEntered (string username, string password, string steamGuard)
+        {
+            System.Diagnostics.Debug.WriteLine (steamGuard);
+        }
+
+        void HandleLoginResponse (string username, string password, Tuple<string, LoginResponse> result)
+        {
             switch (result.Item2) {
-                case LoginResponse.CaptchaThenSteamGuard:
-                    break;
                 case LoginResponse.JustCaptcha:
-                    ShowCaptchaFragment ((result.Item1 as CaptchaReturn).CaptchaURL);
+                    ShowCaptchaFragment (username, password, result.Item1);
                     break;
                 case LoginResponse.JustSteamGuard:
-                    System.Diagnostics.Debug.WriteLine ("steam guard");
+                    ShowSteamGuardFragment (username, password, result.Item1);
                     break;
                 case LoginResponse.IncorrectDetails:
+                    if (CurrentFragment is CaptchaFragment || CurrentFragment is SteamGuardFragment) {
+                        RewindToLogin ();
+                    }
                     Toast.MakeText (this, Resource.String.IncorrectDetailsToastText, ToastLength.Short).Show ();
                     break;
                 case LoginResponse.Success:
                     StartActivity (new Android.Content.Intent (this, typeof (MainActivity)));
                     break;
                 case LoginResponse.Failed:
-                    System.Diagnostics.Debug.WriteLine ("failed");
+                    Toast.MakeText (this, Resource.String.IncorrectDetailsToastText, ToastLength.Short).Show ();
                     break;
             }
         }
 
-        public async Task CaptchaEntered (string captcha)
+        void RewindToLogin ()
         {
-            System.Diagnostics.Debug.WriteLine (string.Format("Entered captcha: {0}", captcha));
+            for (var i = 0; i < SupportFragmentManager.BackStackEntryCount; i++) {
+                SupportFragmentManager.PopBackStack ();
+            }
+            SupportActionBar.SetDisplayHomeAsUpEnabled (false);
         }
 
         void ShowLoginFragment ()
@@ -67,10 +81,17 @@ namespace SteamChatAndroid.Activities
             ReplaceFragment (Resource.Id.LoginFragmentContainer, loginFragment, LoginFragment.MyTag).Commit ();
         }
 
-        void ShowCaptchaFragment (string url)
+        void ShowCaptchaFragment (string username, string password, string url)
         {
-            var captchaFragment = CaptchaFragment.NewInstance (url);
+            var captchaFragment = CaptchaFragment.NewInstance (username, password, url);
             ReplaceFragment (Resource.Id.LoginFragmentContainer, captchaFragment, CaptchaFragment.MyTag).AddToBackStack (null).Commit ();
+            SupportActionBar.SetDisplayHomeAsUpEnabled (true);
+        }
+
+        void ShowSteamGuardFragment (string username, string password, string email)
+        {
+            var steamGuardFragment = SteamGuardFragment.NewInstance (username, password, email);
+            ReplaceFragment (Resource.Id.LoginFragmentContainer, steamGuardFragment, SteamGuardFragment.MyTag).AddToBackStack (null).Commit ();
             SupportActionBar.SetDisplayHomeAsUpEnabled (true);
         }
 
@@ -86,6 +107,12 @@ namespace SteamChatAndroid.Activities
             }
         }
 
+        public Android.Support.V4.App.Fragment CurrentFragment {
+            get {
+                return SupportFragmentManager.FindFragmentById (Resource.Id.LoginFragmentContainer);
+            }
+        }
+
         protected override int LayoutResource {
             get {
                 return Resource.Layout.LoginActivity;
@@ -94,7 +121,7 @@ namespace SteamChatAndroid.Activities
 
         protected override int ToolbarTitleResource {
             get {
-                return Resource.String.LoginToolbarTitle;
+                return Resource.String.BlankToolbar;
             }
         }
     }
