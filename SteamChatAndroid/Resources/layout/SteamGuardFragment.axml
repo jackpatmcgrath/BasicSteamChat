@@ -20,10 +20,10 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="120dp"
-            android:layout_marginRight="120dp"
             android:hint="@string/SteamGuardFieldHint"
             android:id="@+id/SteamGuardEditText"
+            android:layout_marginLeft="120dp"
+            android:layout_marginRight="120dp"
             android:imeOptions="actionDone"
             android:maxLength="5"
             android:singleLine="true"

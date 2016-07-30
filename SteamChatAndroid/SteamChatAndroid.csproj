@@ -121,10 +121,13 @@
     <Compile Include="Controls\MainApplication.cs" />
     <Compile Include="Fragments\BaseFragment.cs" />
     <Compile Include="Fragments\CaptchaFragment.cs" />
+    <Compile Include="Fragments\FriendsFragment.cs" />
     <Compile Include="Fragments\LoginFragment.cs" />
+    <Compile Include="Fragments\MessagesFragment.cs" />
     <Compile Include="Fragments\SteamGuardFragment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
+    <Compile Include="Utils\ViewUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -143,6 +146,12 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\SteamGuardFragment.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\MessagesFragment.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\FriendsFragment.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

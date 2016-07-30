@@ -1,4 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <resources>
-  <color name="LoginBackgroundColour">#B0BEC5</color>
+  <color name="Primary">#B0BEC5</color>
+  <color name="PrimaryDark">#90A4AE</color>
+  <color name="Accent">#3F51B5</color>
 </resources>

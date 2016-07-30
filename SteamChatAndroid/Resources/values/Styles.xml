@@ -2,15 +2,10 @@
 <resources>
   <!-- Primary theme -->
   <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-    <!-- <item name="colorPrimary">@color/colorPrimary</item> -->
-    <!-- <item name="colorPrimaryDark">@color/colorPrimaryDark</item> -->
+    <item name="colorPrimary">@color/Primary</item>
+    <item name="colorPrimaryDark">@color/PrimaryDark</item>
+    <item name="colorAccent">@color/Accent</item>
     <item name="android:windowActionBar">false</item>
     <item name="android:windowNoTitle">true</item>
-  </style>
-
-  <!-- Login text field style -->
-  <style name="LoginEditText" parent="Widget.AppCompat.EditText">
-    <item name="android:padding">20dp</item>
-    <item name="android:singleLine">true</item>
   </style>
 </resources>

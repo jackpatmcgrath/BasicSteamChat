@@ -3,6 +3,7 @@ using SteamSharp;
 using SteamSharp.Authenticators;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace SteamChatCore
@@ -25,9 +26,16 @@ namespace SteamChatCore
         public async Task<Tuple<string, LoginResponse>> InitialLogin (string username, string password)
         {
             client = new SteamClient ();
-            result = await Task.Run (() => UserAuthenticator.GetAccessTokenForUser (username, password));
-            System.Diagnostics.Debug.WriteLineIf (!string.IsNullOrEmpty (result.SteamResponseMessage), result.SteamResponseMessage);
-            return CheckResult ();  
+
+            try {
+                result = await Task.Run (() => UserAuthenticator.GetAccessTokenForUser (username, password));
+            } catch (SteamRequestException e) {
+                Debug.WriteLine (e.Message);
+                return new Tuple<string, LoginResponse> (null, LoginResponse.Failed);
+            }
+
+            Debug.WriteLineIf (!string.IsNullOrEmpty (result.SteamResponseMessage), result.SteamResponseMessage);
+            return CheckResult ();
         }
 
         public async Task<Tuple<string, LoginResponse>> CaptchaLogin (string username, string password, string answer)
@@ -36,8 +44,15 @@ namespace SteamChatCore
                 GID = result.CaptchaGID,
                 SolutionText = answer
             };
-            result = await Task.Run (() => UserAuthenticator.GetAccessTokenForUser (username, password, null, captchaAnswer));
-            System.Diagnostics.Debug.WriteLineIf (!string.IsNullOrEmpty (result.SteamResponseMessage), result.SteamResponseMessage);
+
+            try {
+                result = await Task.Run (() => UserAuthenticator.GetAccessTokenForUser (username, password, null, captchaAnswer));
+            } catch (SteamRequestException e) {
+                Debug.WriteLine (e.Message);
+                return new Tuple<string, LoginResponse> (null, LoginResponse.Failed);
+            }
+
+            Debug.WriteLineIf (!string.IsNullOrEmpty (result.SteamResponseMessage), result.SteamResponseMessage);
             return CheckResult ();
         }
 
@@ -47,8 +62,15 @@ namespace SteamChatCore
                 ID = result.SteamGuardID,
                 SolutionText = answer
             };
-            result = await Task.Run (() => UserAuthenticator.GetAccessTokenForUser (username, password, steamGuardAnswer, null));
-            System.Diagnostics.Debug.WriteLineIf (!string.IsNullOrEmpty (result.SteamResponseMessage), result.SteamResponseMessage);
+
+            try {
+                result = await Task.Run (() => UserAuthenticator.GetAccessTokenForUser (username, password, steamGuardAnswer, null));
+            } catch (SteamRequestException e) {
+                Debug.WriteLine (e.Message);
+                return new Tuple<string, LoginResponse> (null, LoginResponse.Failed);
+            }
+
+            Debug.WriteLineIf (!string.IsNullOrEmpty (result.SteamResponseMessage), result.SteamResponseMessage);
             return CheckResult ();
         }
 

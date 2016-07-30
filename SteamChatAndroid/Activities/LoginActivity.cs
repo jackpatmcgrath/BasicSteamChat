@@ -4,6 +4,7 @@ using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using SteamChatAndroid.Fragments;
+using SteamChatAndroid.Utils;
 using SteamChatCore;
 using SteamChatCore.Model;
 using System;
@@ -17,8 +18,13 @@ namespace SteamChatAndroid.Activities
         protected override void OnCreate (Bundle savedInstanceState)
         {
             base.OnCreate (savedInstanceState);
-
             ShowLoginFragment ();
+        }
+
+        protected override void SetupToolbar ()
+        {
+            base.SetupToolbar ();
+            SupportActionBar.Title = "";
         }
 
         public void HideBackButton ()
@@ -28,6 +34,7 @@ namespace SteamChatAndroid.Activities
 
         public async Task DoLogin (string username, string password)
         {
+            this.HideKeyboard ();
             var result = await UserController.Instance.InitialLogin (username, password);
             LoginFragment.ToggleFields ();
             HandleLoginResponse (username, password, result);

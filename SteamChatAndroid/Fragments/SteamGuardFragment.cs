@@ -34,13 +34,13 @@ namespace SteamChatAndroid.Fragments
         {
             var view = base.OnCreateView (inflater, container, savedInstanceState);
             steamGuardLabel.Text = string.Format (GetString (Resource.String.SteamGuardLabelCaption), Arguments.GetString (Consts.SteamGuardEmailKey));
-            steamGuardField.EditorAction += SteamGuardFieldActionEventHandler;
+            steamGuardField.EditorAction += SteamGuardFieldActionHandler;
             return view;
         }
 
         public override void OnDestroyView ()
         {
-            steamGuardField.EditorAction -= SteamGuardFieldActionEventHandler;
+            steamGuardField.EditorAction -= SteamGuardFieldActionHandler;
             base.OnDestroyView ();
         }
 
@@ -49,7 +49,7 @@ namespace SteamChatAndroid.Fragments
             steamGuardField.Enabled = !steamGuardField.Enabled;
         }
 
-        async void SteamGuardFieldActionEventHandler (object sender, TextView.EditorActionEventArgs args)
+        async void SteamGuardFieldActionHandler (object sender, TextView.EditorActionEventArgs args)
         {
             switch (args.ActionId) {
                 case Android.Views.InputMethods.ImeAction.Done:
