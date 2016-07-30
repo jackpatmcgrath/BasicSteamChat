@@ -2524,11 +2524,11 @@ namespace SteamChatAndroid
 			// aapt resource value: 0x7f090018
 			public const int BlankToolbar = 2131296280;
 			
-			// aapt resource value: 0x7f09001f
-			public const int CaptchaButtonCaption = 2131296287;
+			// aapt resource value: 0x7f090020
+			public const int CaptchaButtonCaption = 2131296288;
 			
-			// aapt resource value: 0x7f09001e
-			public const int CaptchaFieldHint = 2131296286;
+			// aapt resource value: 0x7f09001f
+			public const int CaptchaFieldHint = 2131296287;
 			
 			// aapt resource value: 0x7f09001d
 			public const int IncorrectDetailsToastText = 2131296285;
@@ -2536,8 +2536,11 @@ namespace SteamChatAndroid
 			// aapt resource value: 0x7f090019
 			public const int LoginButtonCaption = 2131296281;
 			
-			// aapt resource value: 0x7f090020
-			public const int LoginToolbarTitle = 2131296288;
+			// aapt resource value: 0x7f09001e
+			public const int LoginFailedToastText = 2131296286;
+			
+			// aapt resource value: 0x7f090021
+			public const int LoginToolbarTitle = 2131296289;
 			
 			// aapt resource value: 0x7f09001b
 			public const int PasswordFieldHint = 2131296283;
@@ -2545,8 +2548,8 @@ namespace SteamChatAndroid
 			// aapt resource value: 0x7f09001c
 			public const int SteamGuardFieldHint = 2131296284;
 			
-			// aapt resource value: 0x7f090021
-			public const int SteamGuardLabelCaption = 2131296289;
+			// aapt resource value: 0x7f090022
+			public const int SteamGuardLabelCaption = 2131296290;
 			
 			// aapt resource value: 0x7f09001a
 			public const int UsernameFieldHint = 2131296282;

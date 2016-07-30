@@ -18,11 +18,11 @@ namespace SteamChatAndroid.Activities
             }
         }
 
-        protected override int ToolbarTitleResource {
-            get {
-                return Resource.String.LoginToolbarTitle;
-            }
-        }
+        //protected override int ToolbarTitleResource {
+        //    get {
+        //        return Resource.String.LoginToolbarTitle;
+        //    }
+        //}
     }
 }
 

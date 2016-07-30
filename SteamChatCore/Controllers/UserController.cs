@@ -41,6 +41,17 @@ namespace SteamChatCore
             return CheckResult ();
         }
 
+        public async Task<Tuple<string, LoginResponse>> SteamGuardLogin (string username, string password, string answer)
+        {
+            var steamGuardAnswer = new UserAuthenticator.SteamGuardAnswer {
+                ID = result.SteamGuardID,
+                SolutionText = answer
+            };
+            result = await Task.Run (() => UserAuthenticator.GetAccessTokenForUser (username, password, steamGuardAnswer, null));
+            System.Diagnostics.Debug.WriteLineIf (!string.IsNullOrEmpty (result.SteamResponseMessage), result.SteamResponseMessage);
+            return CheckResult ();
+        }
+
         Tuple<string, LoginResponse> CheckResult ()
         {
             if (result.SteamResponseMessage == "Incorrect login.") {

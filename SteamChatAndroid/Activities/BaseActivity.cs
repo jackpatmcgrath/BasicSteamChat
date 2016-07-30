@@ -28,7 +28,7 @@ namespace SteamChatAndroid.Activities
         {
             if (Toolbar != null) {
                 SetSupportActionBar (Toolbar);
-                SupportActionBar.Title = GetString (ToolbarTitleResource);
+                //SupportActionBar.Title = GetString (ToolbarTitleResource);
             }
         }
 
@@ -65,6 +65,6 @@ namespace SteamChatAndroid.Activities
 
         protected abstract int LayoutResource { get; }
 
-        protected abstract int ToolbarTitleResource { get; }
+        //protected abstract int ToolbarTitleResource { get; }
     }
 }

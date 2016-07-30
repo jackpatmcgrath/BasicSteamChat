@@ -16,7 +16,7 @@
             android:layout_marginBottom="10dp"
             android:id="@+id/SteamGuardTextView"
             android:text="@string/SteamGuardLabelCaption"
-            android:gravity="center"/>
+            android:gravity="center" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,6 +26,7 @@
             android:id="@+id/SteamGuardEditText"
             android:imeOptions="actionDone"
             android:maxLength="5"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:gravity="center" />
     </LinearLayout>
 </LinearLayout>

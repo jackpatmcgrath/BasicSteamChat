@@ -10,6 +10,7 @@
   <string name="PasswordFieldHint">Password</string>
   <string name="SteamGuardFieldHint">Code</string>
   <string name="IncorrectDetailsToastText">Incorrect login details</string>
+  <string name="LoginFailedToastText">Login failed</string>
   <string name="CaptchaFieldHint">Captcha</string>
   <string name="CaptchaButtonCaption">Submit</string>
   <string name="LoginToolbarTitle">Login to Steam</string>

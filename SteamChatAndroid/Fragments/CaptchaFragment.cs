@@ -43,10 +43,16 @@ namespace SteamChatAndroid.Fragments
             base.OnDestroyView ();
         }
 
+        public void ToggleField ()
+        {
+            captchaField.Enabled = !captchaField.Enabled;
+        }
+
         async void CaptchaFieldActionEventHandler (object sender, TextView.EditorActionEventArgs args)
         {
             switch (args.ActionId) {
                 case Android.Views.InputMethods.ImeAction.Done:
+                    ToggleField ();
                     var username = Arguments.GetString (Consts.UsernameKey);
                     var password = Arguments.GetString (Consts.PasswordKey);
                     await FragmentListener.CaptchaEntered (username, password, captchaField.Text);

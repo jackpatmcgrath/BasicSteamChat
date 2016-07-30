@@ -44,10 +44,16 @@ namespace SteamChatAndroid.Fragments
             base.OnDestroyView ();
         }
 
+        public void ToggleField ()
+        {
+            steamGuardField.Enabled = !steamGuardField.Enabled;
+        }
+
         async void SteamGuardFieldActionEventHandler (object sender, TextView.EditorActionEventArgs args)
         {
             switch (args.ActionId) {
                 case Android.Views.InputMethods.ImeAction.Done:
+                    ToggleField ();
                     var username = Arguments.GetString (Consts.UsernameKey);
                     var password = Arguments.GetString (Consts.PasswordKey);
                     await FragmentListener.SteamGuardEntered (username, password, steamGuardField.Text);
