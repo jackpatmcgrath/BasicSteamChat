@@ -57,7 +57,7 @@ namespace SteamChatAndroid.Activities
             return SupportFragmentManager.BeginTransaction ().Replace (containerId, fragment, tag);
         }
 
-        protected int Navigationicon {
+        protected int NavigationIcon {
             set {
                 Toolbar.NavigationIcon = ContextCompat.GetDrawable (this, value);
             }
