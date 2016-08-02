@@ -1,18 +1,18 @@
 using Android.App;
+using Android.Content.PM;
 using Android.OS;
-using Android.Support.V7.App;
-using Android.Views;
 using Android.Widget;
 using SteamChatAndroid.Fragments;
 using SteamChatAndroid.Utils;
 using SteamChatCore;
+using SteamChatCore.Controllers;
 using SteamChatCore.Model;
 using System;
 using System.Threading.Tasks;
 
 namespace SteamChatAndroid.Activities
 {
-    [Activity (Label = "@string/ApplicationName", MainLauncher = true)]
+    [Activity (Label = "@string/ApplicationName", ScreenOrientation = ScreenOrientation.Portrait, MainLauncher = true)]
     public class LoginActivity : BaseActivity, LoginFragmentListener, CaptchaFragmentListener, SteamGuardFragmentListener
     {
         protected override void OnCreate (Bundle savedInstanceState)
@@ -35,26 +35,26 @@ namespace SteamChatAndroid.Activities
         public async Task DoLogin (string username, string password)
         {
             this.HideKeyboard ();
-            var result = await UserController.Instance.InitialLogin (username, password);
+            var result = await LoginController.Instance.InitialLogin (username, password);
+            await HandleLoginResponse (username, password, result);
             LoginFragment.ToggleFields ();
-            HandleLoginResponse (username, password, result);
         }
 
         public async Task CaptchaEntered (string username, string password, string captcha)
         {
-            var result = await UserController.Instance.CaptchaLogin (username, password, captcha);
+            var result = await LoginController.Instance.CaptchaLogin (username, password, captcha);
+            await HandleLoginResponse (username, password, result);
             CaptchaFragment.ToggleField ();
-            HandleLoginResponse (username, password, result);
         }
 
         public async Task SteamGuardEntered (string username, string password, string steamGuard)
         {
-            var result = await UserController.Instance.SteamGuardLogin (username, password, steamGuard);
+            var result = await LoginController.Instance.SteamGuardLogin (username, password, steamGuard);
+            await HandleLoginResponse (username, password, result);
             SteamGuardFragment.ToggleField ();
-            HandleLoginResponse (username, password, result);
         }
 
-        void HandleLoginResponse (string username, string password, Tuple<string, LoginResponse> result)
+        async Task HandleLoginResponse (string username, string password, Tuple<string, LoginResponse> result)
         {
             switch (result.Item2) {
                 case LoginResponse.JustCaptcha:
@@ -64,26 +64,37 @@ namespace SteamChatAndroid.Activities
                     ShowSteamGuardFragment (username, password, result.Item1);
                     break;
                 case LoginResponse.IncorrectDetails:
-                    if (CurrentFragment is CaptchaFragment || CurrentFragment is SteamGuardFragment) {
-                        RewindToLogin ();
-                    }
-                    Toast.MakeText (this, Resource.String.IncorrectDetailsToastText, ToastLength.Short).Show ();
+                    RewindToLoginIfNecessary ();
+                    ShowErrorToast (Resource.String.IncorrectDetailsToastText);
                     break;
                 case LoginResponse.Success:
-                    StartActivity (new Android.Content.Intent (this, typeof (MainActivity)));
+                    LoginController.Instance.Reset ();
+                    if (await ChatController.Instance.LogOntoChat ()) {
+                        StartActivity (new Android.Content.Intent (this, typeof (MainActivity)));
+                    } else {
+                        RewindToLoginIfNecessary ();
+                        ShowErrorToast (Resource.String.LoginFailedToastText);
+                    }
                     break;
                 case LoginResponse.Failed:
-                    Toast.MakeText (this, Resource.String.LoginFailedToastText, ToastLength.Short).Show ();
+                    ShowErrorToast (Resource.String.LoginFailedToastText);
                     break;
             }
         }
 
-        void RewindToLogin ()
+        void ShowErrorToast (int messageId)
         {
-            for (var i = 0; i < SupportFragmentManager.BackStackEntryCount; i++) {
-                SupportFragmentManager.PopBackStack ();
+            Toast.MakeText (this, messageId, ToastLength.Short).Show ();
+        }
+
+        void RewindToLoginIfNecessary ()
+        {
+            if (CurrentFragment is CaptchaFragment || CurrentFragment is SteamGuardFragment) {
+                for (var i = 0; i < SupportFragmentManager.BackStackEntryCount; i++) {
+                    SupportFragmentManager.PopBackStack ();
+                }
+                SupportActionBar.SetDisplayHomeAsUpEnabled (false);
             }
-            SupportActionBar.SetDisplayHomeAsUpEnabled (false);
         }
 
         void ShowLoginFragment ()

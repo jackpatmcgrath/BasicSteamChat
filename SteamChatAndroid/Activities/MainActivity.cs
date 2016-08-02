@@ -1,15 +1,14 @@
 ﻿using Android.App;
-using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Support.V4.App;
-using Android.Support.V7.App;
 using Com.Lilarcor.Cheeseknife;
 using Java.Lang;
 using SteamChatAndroid.Fragments;
 
 namespace SteamChatAndroid.Activities
 {
-    [Activity (Label = "MainActivity")]
+    [Activity (Label = "MainActivity", ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : BaseActivity
     {
         [InjectView (Resource.Id.TabLayout)]
@@ -21,6 +20,7 @@ namespace SteamChatAndroid.Activities
         protected override void OnCreate (Bundle savedInstanceState)
         {
             base.OnCreate (savedInstanceState);
+
             var titles = new string[] { GetString (Resource.String.MessagesTabTitle), GetString (Resource.String.FriendsTabTitle) };
             viewPager.Adapter = new MainFragmentPagerAdapter (SupportFragmentManager, titles);
             tabLayout.SetupWithViewPager (viewPager);
@@ -49,7 +49,6 @@ namespace SteamChatAndroid.Activities
     public class MainFragmentPagerAdapter : FragmentPagerAdapter
     {
         const int PageCount = 2;
-
         string[] TabTitles;
 
         public MainFragmentPagerAdapter (Android.Support.V4.App.FragmentManager fm, string[] tabTitles)

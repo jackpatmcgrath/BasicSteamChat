@@ -1,20 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Util;
+using Android.Support.V7.Widget;
 using Android.Views;
-using Android.Widget;
+using Com.Lilarcor.Cheeseknife;
+using SteamChatAndroid.Controls;
+using SteamChatAndroid.ViewHolders;
+using SteamChatCore.Controllers;
+using SteamChatCore.Model;
+using System.Threading.Tasks;
 
 namespace SteamChatAndroid.Fragments
 {
     public class FriendsFragment : BaseFragment
     {
+        [InjectView (Resource.Id.FriendsRecyclerView)]
+        RecyclerView friendsRecyclerView;
+
         public const string MyTag = "friends_fragment";
 
         public static FriendsFragment NewInstance ()
@@ -24,7 +24,22 @@ namespace SteamChatAndroid.Fragments
 
         public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            return base.OnCreateView (inflater, container, savedInstanceState);
+            var view = base.OnCreateView (inflater, container, savedInstanceState);
+            SetupRecyclerView ();
+            return view;
+        }
+
+        void SetupRecyclerView ()
+        {
+            var adapter = new GenericAdapter<SteamUser, FriendViewHolder> (ChatController.Instance.Friends, Resource.Layout.FriendViewHolder);
+            adapter.ItemClick += Adapter_ItemClick;
+            friendsRecyclerView.SetAdapter (adapter);
+            friendsRecyclerView.SetLayoutManager (new LinearLayoutManager (Context));
+        }
+
+        private void Adapter_ItemClick (object sender, ItemClickEventArgs<SteamUser> e)
+        {
+            System.Diagnostics.Debug.WriteLine (e.Item.SteamID.ToString ());
         }
 
         protected override int LayoutResource {

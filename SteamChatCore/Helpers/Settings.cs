@@ -1,4 +1,3 @@
-// Helpers/Settings.cs
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 
@@ -19,10 +18,11 @@ namespace SteamChatCore.Helpers
 
         #region Setting Constants
 
-        private const string SettingsKey = "settings_key";
-        private const string TokenKey = "token_key";
+        const string SettingsKey = "settings_key";
+        const string TokenKey = "token_key";
+        const string IDKey = "id_key";
 
-        private static readonly string SettingsDefault = string.Empty;
+        static readonly string SettingsDefault = string.Empty;
 
         #endregion
 
@@ -41,6 +41,15 @@ namespace SteamChatCore.Helpers
             }
             set {
                 AppSettings.AddOrUpdateValue (TokenKey, value);
+            }
+        }
+
+        public static string SteamID {
+            get {
+                return AppSettings.GetValueOrDefault (IDKey, SettingsDefault);
+            }
+            set {
+                AppSettings.AddOrUpdateValue (IDKey, value);
             }
         }
     }

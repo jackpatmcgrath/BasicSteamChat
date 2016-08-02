@@ -34,9 +34,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\ChatController.cs" />
+    <Compile Include="Controllers\FriendsController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Helpers\Settings.cs" />
-    <Compile Include="Model\LoginResponse.cs" />
+    <Compile Include="Model\Enum.cs" />
+    <Compile Include="Model\SteamID.cs" />
+    <Compile Include="Model\SteamUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

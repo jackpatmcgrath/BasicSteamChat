@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Android.Views;
 using Android.Support.V7.Widget;
+using Com.Lilarcor.Cheeseknife;
 
 namespace SteamChatAndroid.Controls
 {
@@ -9,7 +10,6 @@ namespace SteamChatAndroid.Controls
     {
         public event EventHandler<ItemClickEventArgs<T>> ItemClick;
 
-        List<T> _items;
         public List<T> Items {
             get {
                 return _items;
@@ -19,8 +19,8 @@ namespace SteamChatAndroid.Controls
                 NotifyDataSetChanged ();
             }
         }
+        List<T> _items;
 
-        int _resourceId;
         public int ResourceId {
             get {
                 return _resourceId;
@@ -30,6 +30,7 @@ namespace SteamChatAndroid.Controls
                 NotifyDataSetChanged ();
             }
         }
+        int _resourceId;
 
         public GenericAdapter (List<T> items, int resourceId)
         {
@@ -51,7 +52,7 @@ namespace SteamChatAndroid.Controls
         public override RecyclerView.ViewHolder OnCreateViewHolder (ViewGroup parent, int viewType)
         {
             var itemView = LayoutInflater.From (parent.Context).Inflate (_resourceId, parent, false);
-            var vh = Activator.CreateInstance (typeof (GenericViewHolder<T>), itemView) as GenericViewHolder<T>;
+            var vh = Activator.CreateInstance (typeof (X), itemView) as X;
             vh.Listener = clickPosition => OnClick (clickPosition);
             return vh;
         }
@@ -81,6 +82,7 @@ namespace SteamChatAndroid.Controls
 
         public GenericViewHolder (View itemView) : base (itemView)
         {
+            Cheeseknife.Inject (this, itemView);
         }
 
         protected override void Dispose (bool disposing)

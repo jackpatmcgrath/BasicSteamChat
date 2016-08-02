@@ -8,24 +8,23 @@ using System.Threading.Tasks;
 
 namespace SteamChatCore
 {
-    public sealed class UserController
+    public sealed class LoginController
     {
-        static readonly UserController instance = new UserController ();
+        static readonly LoginController instance = new LoginController ();
 
-        public static UserController Instance {
+        public static LoginController Instance {
             get {
                 return instance;
             }
         }
 
-        private UserController () { }
+        private LoginController () { }
 
-        SteamClient client;
         UserAuthenticator.SteamAccessRequestResult result;
 
         public async Task<Tuple<string, LoginResponse>> InitialLogin (string username, string password)
         {
-            client = new SteamClient ();
+            var client = new SteamClient ();
 
             try {
                 result = await Task.Run (() => UserAuthenticator.GetAccessTokenForUser (username, password));
@@ -91,10 +90,16 @@ namespace SteamChatCore
             if (result.IsSuccessful) {
                 // cache auth token, set other details later
                 Helpers.Settings.AuthToken = result.User.OAuthAccessToken;
+                Helpers.Settings.SteamID = result.User.SteamID.ToString ();
                 return new Tuple<string, LoginResponse> (null, LoginResponse.Success);
             }
 
             return new Tuple<string, LoginResponse> (null, LoginResponse.Failed);
+        }
+
+        public void Reset ()
+        {
+            result = null;
         }
     }
 }
