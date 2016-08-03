@@ -1,13 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white">
-    <TextView
-        android:id="@+id/FriendSteamIDLabel"
-        android:layout_width="match_parent"
+    android:background="@android:color/white"
+    android:padding="10dp">
+    <refractored.controls.CircleImageView
+        android:id="@+id/FriendProfileImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@android:color/black" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:text="test"
+        android:layout_weight="0.8"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/FriendPrimaryLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:textSize="18sp"
+            android:text="leem • fuccboi simulator"
+            android:textColor="@android:color/black"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:singleLine="true" />
+        <TextView
+            android:id="@+id/FriendLastMessageLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="maggy... :steamhappy:"
+            android:textColor="@color/SubText"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:singleLine="true" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/FriendStatusLabel"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"
+        android:text="in game"
+        android:textSize="20sp"
+        android:gravity="center"
         android:textColor="@android:color/black" />
 </LinearLayout>

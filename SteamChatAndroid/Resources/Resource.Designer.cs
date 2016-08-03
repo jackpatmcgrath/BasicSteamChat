@@ -311,6 +311,18 @@ namespace SteamChatAndroid
 			// aapt resource value: 0x7f01009a
 			public const int checkedTextViewStyle = 2130772122;
 			
+			// aapt resource value: 0x7f010126
+			public const int civ_border_color = 2130772262;
+			
+			// aapt resource value: 0x7f010127
+			public const int civ_border_overlay = 2130772263;
+			
+			// aapt resource value: 0x7f010125
+			public const int civ_border_width = 2130772261;
+			
+			// aapt resource value: 0x7f010128
+			public const int civ_fill_color = 2130772264;
+			
 			// aapt resource value: 0x7f0100bc
 			public const int closeIcon = 2130772156;
 			
@@ -1031,31 +1043,34 @@ namespace SteamChatAndroid
 			public const int PrimaryDark = 2131230793;
 			
 			// aapt resource value: 0x7f08004b
-			public const int abc_background_cache_hint_selector_material_dark = 2131230795;
+			public const int SubText = 2131230795;
 			
 			// aapt resource value: 0x7f08004c
-			public const int abc_background_cache_hint_selector_material_light = 2131230796;
+			public const int abc_background_cache_hint_selector_material_dark = 2131230796;
 			
 			// aapt resource value: 0x7f08004d
-			public const int abc_color_highlight_material = 2131230797;
+			public const int abc_background_cache_hint_selector_material_light = 2131230797;
+			
+			// aapt resource value: 0x7f08004e
+			public const int abc_color_highlight_material = 2131230798;
 			
 			// aapt resource value: 0x7f080004
 			public const int abc_input_method_navigation_guard = 2131230724;
 			
-			// aapt resource value: 0x7f08004e
-			public const int abc_primary_text_disable_only_material_dark = 2131230798;
-			
 			// aapt resource value: 0x7f08004f
-			public const int abc_primary_text_disable_only_material_light = 2131230799;
+			public const int abc_primary_text_disable_only_material_dark = 2131230799;
 			
 			// aapt resource value: 0x7f080050
-			public const int abc_primary_text_material_dark = 2131230800;
+			public const int abc_primary_text_disable_only_material_light = 2131230800;
 			
 			// aapt resource value: 0x7f080051
-			public const int abc_primary_text_material_light = 2131230801;
+			public const int abc_primary_text_material_dark = 2131230801;
 			
 			// aapt resource value: 0x7f080052
-			public const int abc_search_url_text = 2131230802;
+			public const int abc_primary_text_material_light = 2131230802;
+			
+			// aapt resource value: 0x7f080053
+			public const int abc_search_url_text = 2131230803;
 			
 			// aapt resource value: 0x7f080005
 			public const int abc_search_url_text_normal = 2131230725;
@@ -1066,11 +1081,11 @@ namespace SteamChatAndroid
 			// aapt resource value: 0x7f080007
 			public const int abc_search_url_text_selected = 2131230727;
 			
-			// aapt resource value: 0x7f080053
-			public const int abc_secondary_text_material_dark = 2131230803;
-			
 			// aapt resource value: 0x7f080054
-			public const int abc_secondary_text_material_light = 2131230804;
+			public const int abc_secondary_text_material_dark = 2131230804;
+			
+			// aapt resource value: 0x7f080055
+			public const int abc_secondary_text_material_light = 2131230805;
 			
 			// aapt resource value: 0x7f080008
 			public const int accent_material_dark = 2131230728;
@@ -1270,11 +1285,11 @@ namespace SteamChatAndroid
 			// aapt resource value: 0x7f08003b
 			public const int switch_thumb_disabled_material_light = 2131230779;
 			
-			// aapt resource value: 0x7f080055
-			public const int switch_thumb_material_dark = 2131230805;
-			
 			// aapt resource value: 0x7f080056
-			public const int switch_thumb_material_light = 2131230806;
+			public const int switch_thumb_material_dark = 2131230806;
+			
+			// aapt resource value: 0x7f080057
+			public const int switch_thumb_material_light = 2131230807;
 			
 			// aapt resource value: 0x7f08003c
 			public const int switch_thumb_normal_material_dark = 2131230780;
@@ -1873,10 +1888,13 @@ namespace SteamChatAndroid
 			public const int Icon = 2130837581;
 			
 			// aapt resource value: 0x7f02004e
-			public const int LoginImage = 2130837582;
+			public const int LineDivider = 2130837582;
 			
 			// aapt resource value: 0x7f02004f
-			public const int notification_template_icon_bg = 2130837583;
+			public const int LoginImage = 2130837583;
+			
+			// aapt resource value: 0x7f020050
+			public const int notification_template_icon_bg = 2130837584;
 			
 			static Drawable()
 			{
@@ -1897,50 +1915,59 @@ namespace SteamChatAndroid
 			// aapt resource value: 0x7f060069
 			public const int CaptchaImageView = 2131099753;
 			
+			// aapt resource value: 0x7f060077
+			public const int FriendLastMessageLabel = 2131099767;
+			
+			// aapt resource value: 0x7f060076
+			public const int FriendPrimaryLabel = 2131099766;
+			
 			// aapt resource value: 0x7f060075
-			public const int FriendSteamIDLabel = 2131099765;
+			public const int FriendProfileImage = 2131099765;
+			
+			// aapt resource value: 0x7f060078
+			public const int FriendStatusLabel = 2131099768;
 			
 			// aapt resource value: 0x7f060074
 			public const int FriendsRecyclerView = 2131099764;
 			
-			// aapt resource value: 0x7f06007d
-			public const int LoginButton = 2131099773;
-			
-			// aapt resource value: 0x7f060078
-			public const int LoginFragmentContainer = 2131099768;
-			
-			// aapt resource value: 0x7f060077
-			public const int LoginImageView = 2131099767;
-			
-			// aapt resource value: 0x7f06007c
-			public const int PasswordEditText = 2131099772;
+			// aapt resource value: 0x7f060080
+			public const int LoginButton = 2131099776;
 			
 			// aapt resource value: 0x7f06007b
-			public const int PasswordWrapper = 2131099771;
-			
-			// aapt resource value: 0x7f06008e
-			public const int SteamGuardEditText = 2131099790;
-			
-			// aapt resource value: 0x7f06008d
-			public const int SteamGuardTextView = 2131099789;
-			
-			// aapt resource value: 0x7f06007e
-			public const int TabLayout = 2131099774;
-			
-			// aapt resource value: 0x7f060076
-			public const int Toolbar = 2131099766;
+			public const int LoginFragmentContainer = 2131099771;
 			
 			// aapt resource value: 0x7f06007a
-			public const int UsernameEditText = 2131099770;
-			
-			// aapt resource value: 0x7f060079
-			public const int UsernameWrapper = 2131099769;
+			public const int LoginImageView = 2131099770;
 			
 			// aapt resource value: 0x7f06007f
-			public const int ViewPager = 2131099775;
+			public const int PasswordEditText = 2131099775;
 			
-			// aapt resource value: 0x7f060080
-			public const int action0 = 2131099776;
+			// aapt resource value: 0x7f06007e
+			public const int PasswordWrapper = 2131099774;
+			
+			// aapt resource value: 0x7f060091
+			public const int SteamGuardEditText = 2131099793;
+			
+			// aapt resource value: 0x7f060090
+			public const int SteamGuardTextView = 2131099792;
+			
+			// aapt resource value: 0x7f060081
+			public const int TabLayout = 2131099777;
+			
+			// aapt resource value: 0x7f060079
+			public const int Toolbar = 2131099769;
+			
+			// aapt resource value: 0x7f06007d
+			public const int UsernameEditText = 2131099773;
+			
+			// aapt resource value: 0x7f06007c
+			public const int UsernameWrapper = 2131099772;
+			
+			// aapt resource value: 0x7f060082
+			public const int ViewPager = 2131099778;
+			
+			// aapt resource value: 0x7f060083
+			public const int action0 = 2131099779;
 			
 			// aapt resource value: 0x7f06005a
 			public const int action_bar = 2131099738;
@@ -1966,8 +1993,8 @@ namespace SteamChatAndroid
 			// aapt resource value: 0x7f06005b
 			public const int action_context_bar = 2131099739;
 			
-			// aapt resource value: 0x7f060084
-			public const int action_divider = 2131099780;
+			// aapt resource value: 0x7f060087
+			public const int action_divider = 2131099783;
 			
 			// aapt resource value: 0x7f060003
 			public const int action_menu_divider = 2131099651;
@@ -2002,8 +2029,8 @@ namespace SteamChatAndroid
 			// aapt resource value: 0x7f060044
 			public const int buttonPanel = 2131099716;
 			
-			// aapt resource value: 0x7f060081
-			public const int cancel_action = 2131099777;
+			// aapt resource value: 0x7f060084
+			public const int cancel_action = 2131099780;
 			
 			// aapt resource value: 0x7f06002b
 			public const int center = 2131099691;
@@ -2017,8 +2044,8 @@ namespace SteamChatAndroid
 			// aapt resource value: 0x7f060052
 			public const int checkbox = 2131099730;
 			
-			// aapt resource value: 0x7f060087
-			public const int chronometer = 2131099783;
+			// aapt resource value: 0x7f06008a
+			public const int chronometer = 2131099786;
 			
 			// aapt resource value: 0x7f060033
 			public const int clip_horizontal = 2131099699;
@@ -2068,8 +2095,8 @@ namespace SteamChatAndroid
 			// aapt resource value: 0x7f06001c
 			public const int end = 2131099676;
 			
-			// aapt resource value: 0x7f06008c
-			public const int end_padder = 2131099788;
+			// aapt resource value: 0x7f06008f
+			public const int end_padder = 2131099791;
 			
 			// aapt resource value: 0x7f060023
 			public const int enterAlways = 2131099683;
@@ -2113,8 +2140,8 @@ namespace SteamChatAndroid
 			// aapt resource value: 0x7f06003f
 			public const int image = 2131099711;
 			
-			// aapt resource value: 0x7f06008b
-			public const int info = 2131099787;
+			// aapt resource value: 0x7f06008e
+			public const int info = 2131099790;
 			
 			// aapt resource value: 0x7f060000
 			public const int item_touch_helper_previous_elevation = 2131099648;
@@ -2122,11 +2149,11 @@ namespace SteamChatAndroid
 			// aapt resource value: 0x7f06002f
 			public const int left = 2131099695;
 			
-			// aapt resource value: 0x7f060085
-			public const int line1 = 2131099781;
+			// aapt resource value: 0x7f060088
+			public const int line1 = 2131099784;
 			
-			// aapt resource value: 0x7f060089
-			public const int line3 = 2131099785;
+			// aapt resource value: 0x7f06008c
+			public const int line3 = 2131099788;
 			
 			// aapt resource value: 0x7f06000b
 			public const int listMode = 2131099659;
@@ -2134,8 +2161,8 @@ namespace SteamChatAndroid
 			// aapt resource value: 0x7f060041
 			public const int list_item = 2131099713;
 			
-			// aapt resource value: 0x7f060083
-			public const int media_actions = 2131099779;
+			// aapt resource value: 0x7f060086
+			public const int media_actions = 2131099782;
 			
 			// aapt resource value: 0x7f06001d
 			public const int middle = 2131099677;
@@ -2269,8 +2296,8 @@ namespace SteamChatAndroid
 			// aapt resource value: 0x7f060031
 			public const int start = 2131099697;
 			
-			// aapt resource value: 0x7f060082
-			public const int status_bar_latest_event_content = 2131099778;
+			// aapt resource value: 0x7f060085
+			public const int status_bar_latest_event_content = 2131099781;
 			
 			// aapt resource value: 0x7f060065
 			public const int submit_area = 2131099749;
@@ -2278,17 +2305,17 @@ namespace SteamChatAndroid
 			// aapt resource value: 0x7f06000d
 			public const int tabMode = 2131099661;
 			
-			// aapt resource value: 0x7f06008a
-			public const int text = 2131099786;
+			// aapt resource value: 0x7f06008d
+			public const int text = 2131099789;
 			
-			// aapt resource value: 0x7f060088
-			public const int text2 = 2131099784;
+			// aapt resource value: 0x7f06008b
+			public const int text2 = 2131099787;
 			
 			// aapt resource value: 0x7f06004d
 			public const int textSpacerNoButtons = 2131099725;
 			
-			// aapt resource value: 0x7f060086
-			public const int time = 2131099782;
+			// aapt resource value: 0x7f060089
+			public const int time = 2131099785;
 			
 			// aapt resource value: 0x7f060043
 			public const int title = 2131099715;
@@ -4478,6 +4505,24 @@ namespace SteamChatAndroid
 			
 			// aapt resource value: 11
 			public const int CardView_contentPaddingTop = 11;
+			
+			public static int[] CircleImageView = new int[] {
+					2130772261,
+					2130772262,
+					2130772263,
+					2130772264};
+			
+			// aapt resource value: 1
+			public const int CircleImageView_civ_border_color = 1;
+			
+			// aapt resource value: 2
+			public const int CircleImageView_civ_border_overlay = 2;
+			
+			// aapt resource value: 0
+			public const int CircleImageView_civ_border_width = 0;
+			
+			// aapt resource value: 3
+			public const int CircleImageView_civ_fill_color = 3;
 			
 			public static int[] CollapsingAppBarLayout_LayoutParams = new int[] {
 					2130772197,

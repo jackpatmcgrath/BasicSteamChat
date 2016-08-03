@@ -25,16 +25,18 @@ namespace SteamChatAndroid.Fragments
         public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = base.OnCreateView (inflater, container, savedInstanceState);
-            SetupRecyclerView ();
+            var task = SetupRecyclerView ();
             return view;
         }
 
-        void SetupRecyclerView ()
+        async Task SetupRecyclerView ()
         {
+            await ChatController.Instance.UpdateFriends ();
             var adapter = new GenericAdapter<SteamUser, FriendViewHolder> (ChatController.Instance.Friends, Resource.Layout.FriendViewHolder);
             adapter.ItemClick += Adapter_ItemClick;
             friendsRecyclerView.SetAdapter (adapter);
             friendsRecyclerView.SetLayoutManager (new LinearLayoutManager (Context));
+            friendsRecyclerView.AddItemDecoration (new SimpleDivider (Context));
         }
 
         private void Adapter_ItemClick (object sender, ItemClickEventArgs<SteamUser> e)

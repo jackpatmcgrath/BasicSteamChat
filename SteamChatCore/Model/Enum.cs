@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SteamChatCore.Model
+﻿namespace SteamChatCore.Model
 {
     public enum LoginResponse
     {
@@ -14,6 +8,17 @@ namespace SteamChatCore.Model
         IncorrectDetails,
         Success,
         Failed
+    }
+
+    public enum PersonaState
+    {
+        Offline,
+        Online,
+        Busy,
+        Away,
+        Snooze,
+        LookingToTrade,
+        LookingToPlay
     }
 }
 

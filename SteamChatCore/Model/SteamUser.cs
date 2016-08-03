@@ -10,9 +10,26 @@ namespace SteamChatCore.Model
     {
         public SteamID SteamID { get; set; }
 
+        public string PersonaName { get; set; }
+
+        public string AvatarURL { get; set; }
+
+        public string GameExtraInfo { get; set; }
+
+        public DateTime LastLogOff { get; set; }
+
+        public PersonaState PersonaState { get; set; }
+
         public SteamUser (SteamSharp.SteamUser user)
         {
             SteamID = new SteamID (user.SteamID);
+            if (user.PlayerInfo != null) {
+                PersonaName = user.PlayerInfo.PersonaName;
+                AvatarURL = user.PlayerInfo.AvatarURL;
+                GameExtraInfo = user.PlayerInfo.GameExtraInfo;
+                LastLogOff = user.PlayerInfo.LastLogOff;
+                PersonaState = (PersonaState)(int)user.PlayerInfo.PersonaState;
+            }
         }
     }
 

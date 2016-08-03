@@ -27,15 +27,12 @@ namespace SteamChatCore.Controllers
         public async Task<bool> LogOntoChat ()
         {
             chatClient = new SteamChatClient ();
-            var client = new SteamClient ();
-            client.Authenticator = UserAuthenticator.ForProtectedResource (Settings.AuthToken);
-
             chatClient.SteamChatConnectionChanged += SteamChatConnectionChangedHandler;
             chatClient.SteamChatMessagesReceived += SteamChatMessagesReceivedHandler;
             chatClient.SteamChatUserStateChange += SteamChatUserStateChangeHandler;
 
             try {
-                await chatClient.LogOn (client);
+                await chatClient.LogOn (AuthenticatedClient);
             } catch (SteamRequestException e) {
                 Debug.WriteLine (e.Message);
                 return false;
@@ -44,15 +41,21 @@ namespace SteamChatCore.Controllers
             return true;
         }
 
-        public /*Dictionary<Model.SteamID, Model.SteamUser>*/List<Model.SteamUser> Friends {
+        public async Task UpdateFriends ()
+        {
+            await SteamCommunity.GetBulkProfileDataAsync (AuthenticatedClient, chatClient.FriendsList.Friends);
+        }
+
+        public SteamClient AuthenticatedClient {
             get {
-                //var keys = chatClient.FriendsList.Friends.Keys.ToList ().FromSteamSharpList ();
-                //var values = chatClient.FriendsList.Friends.Values.ToList ().FromSteamSharpList ();
-                //return keys.Zip (values, (k, v) => new { Key = k, Value = v } ).ToDictionary (x => x.Key, x => x.Value);
-                var friends = chatClient.FriendsList.Friends.Values.ToList ().FromSteamSharpList ();
-                foreach (var friend in friends) {
-                    friend.SteamID.ToString ();
-                }
+                var client = new SteamClient ();
+                client.Authenticator = UserAuthenticator.ForProtectedResource (Settings.AuthToken);
+                return client;
+            }
+        }
+
+        public List<Model.SteamUser> Friends {
+            get {
                 return chatClient.FriendsList.Friends.Values.ToList ().FromSteamSharpList ();
             }
         }
