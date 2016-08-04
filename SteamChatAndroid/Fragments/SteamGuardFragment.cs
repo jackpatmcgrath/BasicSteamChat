@@ -51,13 +51,11 @@ namespace SteamChatAndroid.Fragments
 
         async void SteamGuardFieldActionHandler (object sender, TextView.EditorActionEventArgs args)
         {
-            switch (args.ActionId) {
-                case Android.Views.InputMethods.ImeAction.Done:
-                    ToggleField ();
-                    var username = Arguments.GetString (Consts.UsernameKey);
-                    var password = Arguments.GetString (Consts.PasswordKey);
-                    await FragmentListener.SteamGuardEntered (username, password, steamGuardField.Text);
-                    break;
+            if (args.ActionId == Android.Views.InputMethods.ImeAction.Go) {
+                ToggleField ();
+                var username = Arguments.GetString (Consts.UsernameKey);
+                var password = Arguments.GetString (Consts.PasswordKey);
+                await FragmentListener.SteamGuardEntered (username, password, steamGuardField.Text);
             }
         }
 

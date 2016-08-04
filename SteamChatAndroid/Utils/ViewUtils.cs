@@ -17,7 +17,8 @@ namespace SteamChatAndroid.Utils
     {
         public static void HideKeyboard (this Activity activity)
         {
-            activity.FindViewById (Android.Resource.Id.Content).RequestFocus ();
+            //activity.FindViewById (Android.Resource.Id.Content).RequestFocus ();
+            activity.Window.DecorView.RootView.RequestFocusFromTouch ();
             var imm = activity.GetSystemService (Context.InputMethodService) as InputMethodManager;
             var result = imm.HideSoftInputFromWindow (activity.CurrentFocus.WindowToken, 0);
         }

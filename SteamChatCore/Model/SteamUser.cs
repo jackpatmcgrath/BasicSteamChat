@@ -12,7 +12,13 @@ namespace SteamChatCore.Model
 
         public string PersonaName { get; set; }
 
+        public string RealName { get; set; }
+
         public string AvatarURL { get; set; }
+
+        public string AvatarMediumURL { get; set; }
+
+        public string AvatarFullURL { get; set; }
 
         public string GameExtraInfo { get; set; }
 
@@ -25,7 +31,10 @@ namespace SteamChatCore.Model
             SteamID = new SteamID (user.SteamID);
             if (user.PlayerInfo != null) {
                 PersonaName = user.PlayerInfo.PersonaName;
+                RealName = user.PlayerInfo.RealName;
                 AvatarURL = user.PlayerInfo.AvatarURL;
+                AvatarMediumURL = user.PlayerInfo.AvatarMediumURL;
+                AvatarFullURL = user.PlayerInfo.AvatarFullURL;
                 GameExtraInfo = user.PlayerInfo.GameExtraInfo;
                 LastLogOff = user.PlayerInfo.LastLogOff;
                 PersonaState = (PersonaState)(int)user.PlayerInfo.PersonaState;

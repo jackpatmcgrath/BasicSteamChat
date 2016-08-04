@@ -26,6 +26,11 @@ namespace SteamChatAndroid.Activities
             tabLayout.SetupWithViewPager (viewPager);
         }
 
+        public override void OnBackPressed ()
+        {
+            // Do nothing
+        }
+
         protected override void SetupToolbar ()
         {
             base.SetupToolbar ();

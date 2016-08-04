@@ -8,4 +8,10 @@
     <item name="android:windowActionBar">false</item>
     <item name="android:windowNoTitle">true</item>
   </style>
+
+  <style name="AppTheme.ProgressDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <item name="android:textColorPrimary">@android:color/white</item>
+    <item name="colorAccent">@color/Accent</item>
+    <item name="android:background">@color/PrimaryDark</item>
+  </style>
 </resources>

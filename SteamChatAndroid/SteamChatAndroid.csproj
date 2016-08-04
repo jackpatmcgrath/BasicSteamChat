@@ -122,6 +122,7 @@
     <Compile Include="Activities\LoginActivity.cs" />
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Controls\GenericAdapter.cs" />
+    <Compile Include="Controls\PicassoCallback.cs" />
     <Compile Include="Controls\SimpleDivider.cs" />
     <Compile Include="Helpers\Consts.cs" />
     <Compile Include="App\MainApplication.cs" />

@@ -24,7 +24,7 @@
             android:id="@+id/SteamGuardEditText"
             android:layout_marginLeft="120dp"
             android:layout_marginRight="120dp"
-            android:imeOptions="actionDone"
+            android:imeOptions="actionGo"
             android:maxLength="5"
             android:singleLine="true"
             android:gravity="center" />

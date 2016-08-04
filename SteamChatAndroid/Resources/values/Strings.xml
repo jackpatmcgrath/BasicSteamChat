@@ -14,6 +14,10 @@
   <string name="CaptchaButtonCaption">Submit</string>
   <string name="LoginToolbarTitle">Login to Steam</string>
   <string name="SteamGuardLabelCaption">Please enter the 5 character Steam Guard code sent to ****@{0}.</string>
+  <string name="LoginProgressDialogAuthorisingMessage">Authorising...</string>
+  <string name="LoginProgressDialogCaptchaMessage">Checking CAPTCHA...</string>
+  <string name="LoginProgressDialogSteamGuardMessage">Checking code...</string>
+  <string name="LoginProgressDialogLoggingInMessage">Logging into Steam chat...</string>
   
   <!-- Main strings -->
   <string name="MessagesTabTitle">Messages</string>

@@ -25,11 +25,11 @@ namespace SteamChatAndroid.Controls
             _divider = ContextCompat.GetDrawable (context, Resource.Drawable.LineDivider);
         }
 
+        //Fix every second row having double thickness
         public override void OnDrawOver (Canvas c, RecyclerView parent, RecyclerView.State state)
         {
             int left = parent.PaddingLeft;
             int right = parent.Width - parent.PaddingRight;
-
             int childCount = parent.ChildCount;
             for (int i = 0; i < childCount; i++) {
                 var child = parent.GetChildAt (i);

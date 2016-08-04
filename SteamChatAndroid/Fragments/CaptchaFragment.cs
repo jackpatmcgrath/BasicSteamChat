@@ -16,6 +16,9 @@ namespace SteamChatAndroid.Fragments
         [InjectView (Resource.Id.CaptchaEditText)]
         EditText captchaField;
 
+        [InjectView (Resource.Id.CaptchaProgressBar)]
+        ProgressBar progressBar;
+
         public const string MyTag = "captcha_fragment";
 
         public static CaptchaFragment NewInstance (string username, string password, string url)
@@ -32,9 +35,16 @@ namespace SteamChatAndroid.Fragments
         public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = base.OnCreateView (inflater, container, savedInstanceState);
-            Picasso.With (Context).Load (Arguments.GetString (Consts.UrlKey)).Fit ().Into (captchaImageView);
+            LoadCaptchaImage ();
             captchaField.EditorAction += CaptchaFieldActionEventHandler;
             return view;
+        }
+
+        void LoadCaptchaImage ()
+        {
+            var callback = new PicassoCallback ();
+            callback.ImageLoaded += (sender, args) => progressBar.Visibility = ViewStates.Gone;
+            Picasso.With (Context).Load (Arguments.GetString (Consts.UrlKey)).Fit ().CenterInside ().Into (captchaImageView, callback);
         }
 
         public override void OnDestroyView ()
@@ -50,13 +60,11 @@ namespace SteamChatAndroid.Fragments
 
         async void CaptchaFieldActionEventHandler (object sender, TextView.EditorActionEventArgs args)
         {
-            switch (args.ActionId) {
-                case Android.Views.InputMethods.ImeAction.Done:
-                    ToggleField ();
-                    var username = Arguments.GetString (Consts.UsernameKey);
-                    var password = Arguments.GetString (Consts.PasswordKey);
-                    await FragmentListener.CaptchaEntered (username, password, captchaField.Text);
-                    break;
+            if (args.ActionId == Android.Views.InputMethods.ImeAction.Go) {
+                ToggleField ();
+                var username = Arguments.GetString (Consts.UsernameKey);
+                var password = Arguments.GetString (Consts.PasswordKey);
+                await FragmentListener.CaptchaEntered (username, password, captchaField.Text);
             }
         }
 

@@ -80,11 +80,11 @@ namespace SteamChatCore
             }
 
             if (result.IsCaptchaNeeded) {
-                return new Tuple<string, LoginResponse> (result.CaptchaURL, LoginResponse.JustCaptcha);
+                return new Tuple<string, LoginResponse> (result.CaptchaURL, LoginResponse.Captcha);
             }
 
             if (result.IsSteamGuardNeeded) {
-                return new Tuple<string, LoginResponse> (result.SteamGuardEmailDomain, LoginResponse.JustSteamGuard);
+                return new Tuple<string, LoginResponse> (result.SteamGuardEmailDomain, LoginResponse.SteamGuard);
             }
 
             if (result.IsSuccessful) {

@@ -15,16 +15,26 @@ namespace SteamChatAndroid.Activities
     [Activity (Label = "@string/ApplicationName", ScreenOrientation = ScreenOrientation.Portrait, MainLauncher = true)]
     public class LoginActivity : BaseActivity, LoginFragmentListener, CaptchaFragmentListener, SteamGuardFragmentListener
     {
+        ProgressDialog progressDialog;
+
         protected override void OnCreate (Bundle savedInstanceState)
         {
             base.OnCreate (savedInstanceState);
             ShowLoginFragment ();
+            SetupLoginProgressDialog ();
         }
 
         protected override void SetupToolbar ()
         {
             base.SetupToolbar ();
             SupportActionBar.Title = "";
+        }
+
+        void SetupLoginProgressDialog ()
+        {
+            progressDialog = new ProgressDialog (this, Resource.Style.AppTheme_ProgressDialog);
+            progressDialog.SetCancelable (false);
+            progressDialog.SetMessage (GetString (Resource.String.LoginProgressDialogAuthorisingMessage));
         }
 
         public void HideBackButton ()
@@ -35,32 +45,44 @@ namespace SteamChatAndroid.Activities
         public async Task DoLogin (string username, string password)
         {
             this.HideKeyboard ();
+            progressDialog.Show ();
             var result = await LoginController.Instance.InitialLogin (username, password);
             await HandleLoginResponse (username, password, result);
+            progressDialog.Dismiss ();
             LoginFragment.ToggleFields ();
         }
 
         public async Task CaptchaEntered (string username, string password, string captcha)
         {
+            progressDialog.SetMessage (GetString (Resource.String.LoginProgressDialogCaptchaMessage));
+            progressDialog.Show ();
             var result = await LoginController.Instance.CaptchaLogin (username, password, captcha);
             await HandleLoginResponse (username, password, result);
+            progressDialog.Dismiss ();
             CaptchaFragment.ToggleField ();
         }
 
         public async Task SteamGuardEntered (string username, string password, string steamGuard)
         {
+            progressDialog.SetMessage (GetString (Resource.String.LoginProgressDialogSteamGuardMessage));
+            progressDialog.Show ();
             var result = await LoginController.Instance.SteamGuardLogin (username, password, steamGuard);
             await HandleLoginResponse (username, password, result);
+            progressDialog.Dismiss ();
+            // Small delay to ensure fields aren't toggled untilthe next activity is visible
+            await Task.Delay (2000);
             SteamGuardFragment.ToggleField ();
         }
 
         async Task HandleLoginResponse (string username, string password, Tuple<string, LoginResponse> result)
         {
             switch (result.Item2) {
-                case LoginResponse.JustCaptcha:
+                case LoginResponse.Captcha:
+                    // Return to captcha and reload instead of making new fragment
                     ShowCaptchaFragment (username, password, result.Item1);
                     break;
-                case LoginResponse.JustSteamGuard:
+                case LoginResponse.SteamGuard:
+                    // Return to steam guard and reload instead of making new fragment
                     ShowSteamGuardFragment (username, password, result.Item1);
                     break;
                 case LoginResponse.IncorrectDetails:
@@ -69,6 +91,7 @@ namespace SteamChatAndroid.Activities
                     break;
                 case LoginResponse.Success:
                     LoginController.Instance.Reset ();
+                    progressDialog.SetMessage (GetString (Resource.String.LoginProgressDialogLoggingInMessage));
                     if (await ChatController.Instance.LogOntoChat ()) {
                         StartActivity (new Android.Content.Intent (this, typeof (MainActivity)));
                     } else {

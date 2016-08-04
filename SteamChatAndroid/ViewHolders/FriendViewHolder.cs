@@ -4,6 +4,7 @@ using Android.Views;
 using System;
 using Com.Lilarcor.Cheeseknife;
 using Android.Widget;
+using Square.Picasso;
 
 namespace SteamChatAndroid.ViewHolders
 {
@@ -27,16 +28,17 @@ namespace SteamChatAndroid.ViewHolders
 
         public override void SetItem (SteamUser item)
         {
+            Picasso.With (ItemView.Context).Load (item.AvatarMediumURL).NoFade ().CenterCrop ().Fit ().Into (avatarImage);
             primarylabel.Text = BuildPrimaryLabel (item);
             lastMessageLabel.Text = "todo";
-            friendStatusLabel.Text = item.PersonaState.ToString ();
+            friendStatusLabel.Text = item.PersonaState.PersonaStateToString ();
         }
 
         string BuildPrimaryLabel (SteamUser item)
         {
-            var baseString = item.PersonaName + " \u25CF ";
+            var baseString = item.PersonaName + (string.IsNullOrEmpty (item.RealName) ? "" : string.Format (" ({0})", item.RealName)) + " \u25CF ";
 
-            if (item.PersonaState == PersonaState.Online && item.GameExtraInfo != null) {
+            if (item.PersonaState == PersonaState.Online && string.IsNullOrEmpty (item.GameExtraInfo)) {
                 return baseString + item.GameExtraInfo;
             }
 
